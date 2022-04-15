@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>form 객체</title>
+		<meta name="author" content="tailofmoon">
+		
+		<style>
+			caption { font-size: 32px; }
+			table { width: 320px; }
+			table, th { background: #333; }
+			th { padding-right: 10px; height: 80px; }
+			td {
+				height: 75px;
+				text-align: center;
+			}
+			th > input {
+				width: 100%;
+				border: none;
+				background: #333; color: white;
+				text-align: right; 
+				font-size: 48px;
+			}
+			td > input[type="button"] {
+				width: 100%; height: inherit;
+				color: #333; font-size: 36px;
+				border: none;
+			}
+			td > input[type="button"]:hover {
+				background: #999;
+			}
+			td:last-child > input {
+				background: orange; color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<form name="cal">
+			<table>
+				<caption>계산기</caption>
+				<tr> <!-- 결과 창 -->
+					<th colspan="4"><input type="text" name="result" value="0"></th>
+				</tr>
+				<tr> <!-- 숫자 입력 창 -->
+					<td><input type="button" value="7"></td> 
+					<td><input type="button" value="8"></td>
+					<td><input type="button" value="9"></td>
+					<td><input type="button" value="+"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="4"></td>
+					<td><input type="button" value="5"></td>
+					<td><input type="button" value="6"></td>
+					<td><input type="button" value="-"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="1"></td>
+					<td><input type="button" value="2"></td>
+					<td><input type="button" value="3"></td>
+					<td><input type="button" value="*"></td> 
+				</tr>
+				<tr>
+					<td colspan="2"><input type="button" value="0"></td>
+					<td><input type="button" value="%"></td>
+					<td><input type="button" value="/"></td>
+				</tr>
+				<tr> <!-- 초기화 및 결과 버튼 -->
+					<td colspan="2"><input type="button" class="cls_btn" value="clear"></td>
+					<td colspan="2"><input type="button" class="result_btn" value="="></td>
+				</tr>
+			</table>
+	</form>
+	<script>
+		// 변수 선언 
+		var inp = document.forms['cal']; 
+		var input = inp.getElementsByTagName('input');
+		var cls_btn = document.getElementsByClassName('cls_btn')[0]; 
+		var result_btn = document.getElementsByClassName('result_btn')[0]
+		
+		// 계산기 초기화(clear)
+		function clr() {
+			inp['result'].value = 0;
+		}
+	
+		// 계산기 입력 처리 함수 
+		function calc(value) {
+			// 입력이 들어가면 0을 지움 
+			if(inp['result'].value == 0) {
+				inp['result'].value = '';
+			}
+			
+			// 입력 값을 결과창에 출력 
+			inp['result'].value += value;
+		}
+		
+		// 계산 결과 처리 함수 
+		function my_result () {
+			var result = document.forms['cal']['result'];
+			var calc = eval(result.value);
+			
+			// 결과창에 표시 
+			inp['result'].value = calc;
+		}
+
+		// 이벤트 핸들러 
+	     // -----------------------------------------------
+	     // 숫자 및 사칙 연산 버튼 
+	     for (var i = 0; i < input.length; i++) {
+	         // 숫자와 사칙 연산자만 입력 처리 
+	         if (input[i].value != '=' && input[i].value != 'clear') {
+	             input[i].onclick = function () {
+	                 calc(this.value);
+	             }
+	         } // end if
+		} // end if
+		
+		// 초기화 버튼 
+		cls_btn.onclick = function () {
+			clr();
+		}
+
+		// 결과 버튼 
+		result_btn.onclick = function () {
+			try {
+				my_result();
+			}
+			catch(err) {
+				var result = inp['result'];
+				result.value = '입력 오류';
+			}
+		}
+	</script>
+	</body>
+</html>

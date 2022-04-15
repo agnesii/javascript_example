@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>form 객체</title>
+    </head>
+    <body>
+        <ul id='gnb'>
+            <li>click</li>
+            <li>seconds</li>
+            <li>thirds</li>
+        </ul>
+        <script>
+            // 문서 객체 선택
+            var gnb = document.getElementById('gnb');
+            var li = gnb.getElementsByTagName('li');
+
+            // 첫 번째 목록 클릭 시 스타일 변경 
+            li[0].onclick = function () {
+                li[0].style.backgroundColor = 'red';
+            };
+        </script>
+    </body>
+</html>
